@@ -74,7 +74,13 @@ func Run(opts *Options) (*spec.Swagger, error) {
 		return nil, err
 	}
 	sb := newSpecBuilder(opts.InputSpec, sc, opts.ScanModels)
-	return sb.Build()
+	fmt.Printf("Before sb.Build()\n")
+	x, err2 := sb.Build()
+	fmt.Printf("After sb.Build() -> err:%v\n", err2)
+	if err2 != nil {
+		panic(err2)
+	}
+	return x, err2
 }
 
 func newScanCtx(opts *Options) (*scanCtx, error) {

@@ -649,7 +649,18 @@ COMMENTS:
 		if !mt.SkipCleanUp {
 			mt.Lines = cleanupScannerLines(mt.Lines, rxUncommentHeaders, nil)
 		}
+		fmt.Printf("Before mt.Parse(%v)\n", mt.Lines)
+		if len(mt.Lines) >= 4 && strings.Contains(mt.Lines[1], "Bearer") {
+			fmt.Printf("PATCHE\n")
+			//mt.Lines[0] = "//"
+			mt.Lines[1] = "//  BearerAuth:"
+			mt.Lines[2] = "//    type: apiKey"
+			mt.Lines[3] = "//    name: Authorization"
+			mt.Lines[4] = "//    in: header"
+		}
+		fmt.Printf("Before mt.Pars2(%v)\n", mt.Lines)
 		if err := mt.Parse(mt.Lines); err != nil {
+			panic(err)
 			return err
 		}
 	}

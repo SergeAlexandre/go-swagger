@@ -45,14 +45,17 @@ type SpecFile struct {
 
 // Execute runs this command
 func (s *SpecFile) Execute(args []string) error {
+	fmt.Println("Generating swagger spec")
 	if len(args) == 0 { // by default consider all the paths under the working directory
 		args = []string{"./..."}
 	}
 
+	fmt.Printf("Before loadSpec(%s)\n", s.Input)
 	input, err := loadSpec(string(s.Input))
 	if err != nil {
 		return err
 	}
+	fmt.Printf("After loadSpec(%s)\n", s.Input)
 
 	var opts codescan.Options
 	opts.Packages = args
@@ -65,10 +68,12 @@ func (s *SpecFile) Execute(args []string) error {
 	opts.IncludeTags = s.IncludeTags
 	opts.ExcludeTags = s.ExcludeTags
 	opts.ExcludeDeps = s.ExcludeDeps
+	fmt.Printf("Before codescan.Run()\n")
 	swspec, err := codescan.Run(&opts)
 	if err != nil {
 		return err
 	}
+	fmt.Printf("Afer codescan.Run()\n")
 
 	return writeToFile(swspec, !s.Compact, string(s.Output))
 }

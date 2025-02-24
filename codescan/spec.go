@@ -47,31 +47,38 @@ type specBuilder struct {
 
 func (s *specBuilder) Build() (*spec.Swagger, error) {
 	if err := s.buildModels(); err != nil {
+		panic(err)
 		return nil, err
 	}
 
 	if err := s.buildParameters(); err != nil {
+		panic(err)
 		return nil, err
 	}
 
 	if err := s.buildResponses(); err != nil {
+		panic(err)
 		return nil, err
 	}
 
 	// build definitions dictionary
 	if err := s.buildDiscovered(); err != nil {
+		panic(err)
 		return nil, err
 	}
 
 	if err := s.buildRoutes(); err != nil {
+		panic(err)
 		return nil, err
 	}
 
 	if err := s.buildOperations(); err != nil {
+		panic(err)
 		return nil, err
 	}
 
 	if err := s.buildMeta(); err != nil {
+		panic(err)
 		return nil, err
 	}
 
@@ -122,6 +129,7 @@ func (s *specBuilder) buildMeta() error {
 	// build swagger object
 	for _, decl := range s.ctx.app.Meta {
 		if err := newMetaParser(s.input).Parse(decl.Comments); err != nil {
+			panic(err)
 			return err
 		}
 	}
